@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { motion } from "framer-motion";
 import { api } from "@/convex/_generated/api";
@@ -105,6 +106,31 @@ export default function CreateDetailsForm() {
             Add the details below.
           </p>
         </div>
+        <SignedOut>
+          <div className="rounded-2xl border border-blue-200 bg-blue-50/70 p-5 text-sm text-blue-900">
+            <p className="font-semibold">No account? No problem.</p>
+            <p className="mt-2 text-blue-800">
+              You can create a wishlist without signing in, but you won&apos;t
+              be able to access it across devices or manage multiple wishlists.
+            </p>
+            <SignInButton mode="modal">
+              <button
+                type="button"
+                className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+              >
+                Sign in to sync wishlists
+              </button>
+            </SignInButton>
+          </div>
+        </SignedOut>
+        <SignedIn>
+          <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm text-slate-600">
+            <span className="font-semibold text-slate-700">
+              Signed in. Your wishlists will sync across devices.
+            </span>
+            <UserButton />
+          </div>
+        </SignedIn>
         <motion.form
           onSubmit={handleSubmit}
           className="flex flex-col gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"

@@ -74,7 +74,6 @@ const previewItems = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar />
       <main>
         <Hero />
         <SocialProof />
@@ -85,53 +84,6 @@ export default function Home() {
       </main>
       <Footer />
     </div>
-  );
-}
-
-function Navbar() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 lg:px-10">
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold tracking-tight text-slate-900">
-            WishDrop
-          </span>
-        </div>
-        <nav
-          className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex"
-          aria-label="Primary navigation"
-        >
-          <a className="transition-colors hover:text-slate-900" href="#features">
-            Features
-          </a>
-          <a
-            className="transition-colors hover:text-slate-900"
-            href="#how-it-works"
-          >
-            How it Works
-          </a>
-          <a className="transition-colors hover:text-slate-900" href="#faq">
-            FAQ
-          </a>
-        </nav>
-        <div className="flex items-center gap-3">
-          <button
-            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
-            type="button"
-            aria-label="View demo"
-          >
-            View demo
-          </button>
-          <Link
-            className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-            href="/create"
-            aria-label="Create wishlist"
-          >
-            Create Wishlist
-          </Link>
-        </div>
-      </div>
-    </header>
   );
 }
 
@@ -452,4 +404,3 @@ function Footer() {
     </footer>
   );
 }
-

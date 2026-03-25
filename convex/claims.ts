@@ -13,6 +13,16 @@ export const claimItem = mutation({
       throw new ConvexError("Item not found.");
     }
 
+    const wishlist = await ctx.db.get(item.wishlistId);
+    const identity = await ctx.auth.getUserIdentity();
+    if (
+      wishlist?.ownerId &&
+      identity?.subject &&
+      wishlist.ownerId === identity.subject
+    ) {
+      throw new ConvexError("Owners cannot claim their own gifts.");
+    }
+
     if (item.isClaimed) {
       throw new ConvexError("This item has already been claimed.");
     }

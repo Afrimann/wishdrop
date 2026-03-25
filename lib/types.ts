@@ -4,11 +4,14 @@ export type Wishlist = {
   _id: Id<"wishlists">;
   name: string;
   username: string;
+  ownerId?: string;
   eventType: string;
   eventName: string;
   eventDate: string;
   createdAt: number;
 };
+
+export type CurrencyCode = "NGN" | "USD" | "GBP";
 
 export type Item = {
   _id: Id<"items">;
@@ -17,6 +20,7 @@ export type Item = {
   imageId?: Id<"_storage">;
   imageUrl?: string | null;
   price: number;
+  currency?: CurrencyCode;
   storeUrl?: string;
   isClaimed: boolean;
   createdAt: number;

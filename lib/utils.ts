@@ -16,11 +16,21 @@ export function slugifyUsername(value: string): string {
     .replace(/(^-|-$)+/g, "");
 }
 
-export function formatPrice(value: number | null | undefined): string {
+const CURRENCY_LOCALE: Record<string, string> = {
+  NGN: "en-NG",
+  USD: "en-US",
+  GBP: "en-GB",
+};
+
+export function formatPrice(
+  value: number | null | undefined,
+  currency: string = "USD",
+): string {
   if (value === null || value === undefined || Number.isNaN(value)) return "";
-  return new Intl.NumberFormat("en-US", {
+  const locale = CURRENCY_LOCALE[currency] ?? "en-US";
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "USD",
+    currency,
     maximumFractionDigits: 0,
   }).format(value);
 }

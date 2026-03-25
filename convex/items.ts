@@ -7,6 +7,7 @@ export const addItem = mutation({
     title: v.string(),
     imageId: v.optional(v.id("_storage")),
     price: v.number(),
+    currency: v.union(v.literal("NGN"), v.literal("USD"), v.literal("GBP")),
     storeUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -24,6 +25,7 @@ export const addItem = mutation({
       title: args.title,
       imageId: args.imageId,
       price: sanitizedPrice,
+      currency: args.currency,
       storeUrl: args.storeUrl,
       isClaimed: false,
       createdAt: Date.now(),

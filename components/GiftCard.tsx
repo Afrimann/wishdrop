@@ -8,6 +8,7 @@ type GiftCardProps = {
   item: Item;
   onClaim: () => void;
   isClaiming: boolean;
+  canClaim: boolean;
   cardBorderClassName: string;
   claimButtonClassName: string;
   claimButtonHoverClassName: string;
@@ -17,11 +18,13 @@ export function GiftCard({
   item,
   onClaim,
   isClaiming,
+  canClaim,
   cardBorderClassName,
   claimButtonClassName,
   claimButtonHoverClassName,
 }: GiftCardProps) {
-  const priceLabel = formatPrice(item.price);
+  const priceLabel = formatPrice(item.price, item.currency ?? "USD");
+  const claimDisabled = item.isClaimed || isClaiming || !canClaim;
 
   return (
     <motion.article
@@ -47,9 +50,20 @@ export function GiftCard({
       </div>
       <div className="flex flex-1 flex-col gap-4 p-4">
         <div className="flex-1">
-          <h3 className="text-base font-semibold text-slate-900">
-            {item.title}
-          </h3>
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-base font-semibold text-slate-900">
+              {item.title}
+            </h3>
+            <span
+              className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                item.isClaimed
+                  ? "bg-slate-100 text-slate-500"
+                  : "bg-blue-50 text-blue-700"
+              }`}
+            >
+              {item.isClaimed ? "Claimed" : "Available"}
+            </span>
+          </div>
           {priceLabel ? (
             <p className="mt-2 text-sm text-slate-500">{priceLabel}</p>
           ) : null}
@@ -68,17 +82,27 @@ export function GiftCard({
           <button
             type="button"
             onClick={onClaim}
-            disabled={item.isClaimed || isClaiming}
+            disabled={claimDisabled}
             className={`w-full rounded-md px-4 py-2 text-sm font-semibold transition ${
-              item.isClaimed
+              claimDisabled
                 ? "cursor-not-allowed bg-slate-100 text-slate-400"
                 : `${claimButtonClassName} ${claimButtonHoverClassName}`
             }`}
             aria-label={
-              item.isClaimed ? "Gift already claimed" : "Claim gift"
+              item.isClaimed
+                ? "Gift already claimed"
+                : !canClaim
+                  ? "Owners cannot claim gifts"
+                  : "Claim gift"
             }
           >
-            {item.isClaimed ? "Claimed" : isClaiming ? "Claiming..." : "Claim"}
+            {item.isClaimed
+              ? "Claimed"
+              : !canClaim
+                ? "Owners can't claim"
+                : isClaiming
+                  ? "Claiming..."
+                  : "Claim"}
           </button>
         </div>
       </div>
