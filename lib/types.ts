@@ -2,6 +2,7 @@ import type { Id } from "../convex/_generated/dataModel";
 
 export type Wishlist = {
   _id: Id<"wishlists">;
+  _creationTime: number;
   name: string;
   username: string;
   ownerId?: string;
