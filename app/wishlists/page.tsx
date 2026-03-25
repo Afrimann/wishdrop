@@ -9,10 +9,12 @@ import {
   SignInButton,
   useUser,
 } from "@clerk/nextjs";
+import type { Doc } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { EVENT_LABELS, isEventType, type EventType } from "@/lib/events";
 import { formatEventDate } from "@/lib/utils";
-import type { Wishlist } from "@/lib/types";
+
+type WishlistDoc = Doc<"wishlists">;
 
 const RECENT_KEY = "wishdrop_recent";
 
@@ -42,7 +44,7 @@ export default function WishlistsPage() {
     const map = new Map(recentWishlists.map((item) => [item.username, item]));
     return recentUsernames
       .map((username) => map.get(username))
-      .filter((item): item is Wishlist => Boolean(item));
+      .filter((item): item is NonNullable<typeof item> => Boolean(item));
   }, [recentUsernames, recentWishlists]);
   const isRecentLoading =
     recentUsernames.length > 0 && recentWishlists === undefined;
@@ -136,7 +138,7 @@ export default function WishlistsPage() {
   );
 }
 
-function WishlistCard({ wishlist }: { wishlist: Wishlist }) {
+function WishlistCard({ wishlist }: { wishlist: WishlistDoc }) {
   const eventType: EventType = isEventType(wishlist.eventType)
     ? wishlist.eventType
     : "custom";
